@@ -1,4 +1,4 @@
-/* ===============================
+﻿/* ===============================
    DATA CONFIGURATION
    =============================== */
 const CITIES = {
@@ -412,6 +412,57 @@ document.querySelector('.simulate-btn').addEventListener('click', () => {
         coolingText.innerHTML = "Expected Cooling: <strong>↓ 5.2°C</strong> (Optimized)";
         coolingText.style.color = "#22d3ee"; // Cyan
     }, 1000);
+});
+
+// 5. Export Report
+document.getElementById('export-btn').addEventListener('click', () => {
+    const cityHotspots = HOTSPOTS_DATA.filter(point => point.city === currentCity);
+    const cityStations = EV_STATIONS.filter(station => station.city === currentCity);
+    const avgTemp = cityHotspots.length
+        ? cityHotspots.reduce((sum, point) => sum + point.temp, 0) / cityHotspots.length
+        : 0;
+    const avgVeg = cityHotspots.length
+        ? cityHotspots.reduce((sum, point) => sum + point.veg, 0) / cityHotspots.length
+        : 0;
+
+    const report = {
+        generatedAt: new Date().toISOString(),
+        city: currentCity,
+        thresholds: {
+            temperature: Number(thresholds.temp),
+            vegetation: Number(thresholds.veg)
+        },
+        activeLayers: { ...layers },
+        summary: {
+            hotspots: cityHotspots.length,
+            evStations: cityStations.length,
+            avgTemperatureC: Number(avgTemp.toFixed(1)),
+            avgVegetationPct: Number(avgVeg.toFixed(1))
+        },
+        hotspots: cityHotspots,
+        evStations: cityStations
+    };
+
+    const filenameCity = currentCity.toLowerCase().replace(/\s+/g, '-');
+    const filenameDate = new Date().toISOString().slice(0, 10);
+    const filename = `urban-cool-report-${filenameCity}-${filenameDate}.json`;
+
+    const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+
+    const exportBtn = document.getElementById('export-btn');
+    const originalLabel = exportBtn.innerText;
+    exportBtn.innerText = 'Report Exported';
+    setTimeout(() => {
+        exportBtn.innerText = originalLabel;
+    }, 1200);
 });
 
 // Region-to-Language Mapping
