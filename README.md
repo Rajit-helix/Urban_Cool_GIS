@@ -49,6 +49,7 @@ You can also use VS Code Live Server or any equivalent static host.
 - Authentication is currently mocked (no backend auth/session).
 - Data is mock/demo data generated in `script.js`.
 - Text files are saved in UTF-8 encoding for consistent multilingual rendering.
+- Pull requests to `main` are expected to pass the CI workflow before merge.
 
 ## Roadmap Ideas
 - Add real backend APIs for hotspots, EV stations, and user auth
