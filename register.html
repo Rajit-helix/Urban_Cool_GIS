@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanCool GIS - Register</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.4)), url('earth_bg.png');
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: -2;
+            animation: bgFloat 40s infinite alternate ease-in-out;
+        }
+
+        @keyframes bgFloat {
+            0% {
+                background-position: 0% 50%;
+                transform: scale(1.1);
+            }
+
+            100% {
+                background-position: 100% 50%;
+                transform: scale(1.2);
+            }
+        }
+
+        .login-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .login-card h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #3b82f6, #2dd4bf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-card p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            text-align: left;
+        }
+
+        .input-group.full-width {
+            grid-column: span 2;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid #1e293b;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #2dd4bf, #0d9488);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(45, 212, 191, 0.4);
+        }
+
+        .footer-links {
+            margin-top: 24px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .footer-links a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #2dd4bf;
+            filter: blur(150px);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .glow-1 {
+            top: 5%;
+            right: 5%;
+        }
+
+        .glow-2 {
+            bottom: 5%;
+            left: 5%;
+            background: #3b82f6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="login-card">
+        <h1>Join UrbanCool</h1>
+        <p>Create your municipal analyst account</p>
+
+        <form onsubmit="handleRegister(event)">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="John" required>
+                </div>
+                <div class="input-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Doe" required>
+                </div>
+                <div class="input-group full-width">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="john.doe@government.in" required>
+                </div>
+                <div class="input-group">
+                    <label>Department</label>
+                    <select style="background: rgba(2, 6, 23, 0.5); border: 1px solid #1e293b; color: #94a3b8;">
+                        <option>Urban Planning</option>
+                        <option>Environment</option>
+                        <option>IT & GIS</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>City Hub</label>
+                    <input type="text" placeholder="Bhubaneswar" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <button type="submit" class="register-btn">Create Account</button>
+        </form>
+
+        <div class="footer-links">
+            <p>Already have an account? <a href="login.html">Sign In</a></p>
+        </div>
+    </div>
+
+    <script>
+        function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.querySelector('.register-btn');
+            btn.innerText = "Creating Account...";
+            btn.style.opacity = "0.7";
+
+            setTimeout(() => {
+                alert("Account created successfully! Redirecting to login...");
+                window.location.href = "login.html";
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>

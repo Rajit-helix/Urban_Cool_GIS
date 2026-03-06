@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>UrbanCool GIS Dashboard</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Locate Control CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+
+  <!-- LEAFLET GEOCODER CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <h2>UrbanCool GIS</h2>
+
+    <!-- SEARCH BAR CONTAINER -->
+    <div id="search-container"></div>
+
+    <div class="top-actions">
+      <select id="lang-select">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="od">ଓଡ଼ିଆ (Odia)</option>
+        <option value="es">Español</option>
+      </select>
+      <select id="city-select">
+        <option value="Bhubaneswar">Bhubaneswar</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+      </select>
+      <button id="toggle-analytics">📊 Analytics View</button>
+      <button id="export-btn">Export Report</button>
+      <div class="user-profile">
+        <img src="https://ui-avatars.com/api/?name=Admin+User&background=3b82f6&color=fff" alt="User">
+        <div class="user-info">
+          <span class="username">Admin User</span>
+          <a href="login.html" class="logout">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- LEFT PANEL -->
+    <aside class="left-panel">
+      <h3>Layers</h3>
+      <label><input type="checkbox" id="layer-heat" checked> Heat Zones</label>
+      <label><input type="checkbox" id="layer-veg"> Vegetation</label>
+      <label><input type="checkbox" id="layer-ev"> EV Stations</label>
+      <!-- <label><input type="checkbox" id="layer-pop"> Population</label> -->
+
+      <h3>Thresholds</h3>
+      <div style="display:flex; justify-content:space-between; font-size:13px;">
+        <p>Temperature</p>
+        <span id="temp-value">0°C</span>
+      </div>
+      <input type="range" id="temp-slider" min="20" max="50" value="0">
+
+      <div style="display:flex; justify-content:space-between; font-size:13px;">
+        <p>Vegetation %</p>
+        <span id="veg-value">0%</span>
+      </div>
+      <input type="range" id="veg-slider" min="0" max="100" value="0">
+
+      <button class="simulate-btn">Simulate Intervention</button>
+    </aside>
+
+    <!-- MAP AREA -->
+    <main class="map-area">
+      <div class="heatmap" id="map"></div>
+    </main>
+
+    <!-- ANALYTICS AREA (Hidden by default) -->
+    <main class="analytics-area" style="display:none; padding: 20px; overflow-y: auto;">
+      <h2 style="margin-bottom: 20px;">City Analytics Overview</h2>
+      <div class="charts-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="chart-card"
+          style="background: rgba(15, 23, 42, 0.7); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+          <h3>Temperature Distribution</h3>
+          <canvas id="tempChart"></canvas>
+        </div>
+        <div class="chart-card"
+          style="background: rgba(15, 23, 42, 0.7); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+          <h3>Vegetation vs Heat</h3>
+          <canvas id="vegChart"></canvas>
+        </div>
+        <div class="chart-card"
+          style="grid-column: span 2; background: rgba(15, 23, 42, 0.7); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+          <h3>Energy Saving Potential (Simulation)</h3>
+          <canvas id="energyChart"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel">
+      <h3>Hotspot Recommendation</h3>
+
+      <div class="info-box">
+        <p><strong>Risk Level:</strong> <span id="details-risk">Select a zone</span></p>
+        <p>Avg Temp: <span id="details-temp">--</span></p>
+        <p>Population Impact: <span id="details-pop">--</span></p>
+      </div>
+
+      <h4>Suggested Actions</h4>
+      <ul id="suggested-actions">
+        <li>Select a hotspot on the map</li>
+      </ul>
+
+      <p class="cooling" id="details-cooling">Expected Cooling: <strong>--</strong></p>
+    </aside>
+
+  </div>
+
+  <!-- AI CHATBOT WIDGET -->
+  <div id="ai-chatbot" class="chatbot-collapsed">
+    <div class="chatbot-header">
+      <span>AI Urban Assistant</span>
+      <button id="close-chat">×</button>
+    </div>
+    <div id="chatbot-messages" class="chatbot-body">
+      <div class="msg bot">Hello! I'm your AI Urban Assistant. How can I help you today?</div>
+    </div>
+    <div class="chatbot-footer">
+      <input type="text" id="chat-input" placeholder="Ask about heat mitigation...">
+      <button id="send-chat">➔</button>
+    </div>
+  </div>
+
+  <button id="chatbot-toggle">💬</button>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Total Hotspots: 18</p>
+    <p>Energy Saved: 22%</p>
+    <p>CO₂ Reduced: 17%</p>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Locate Control JS -->
+  <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+
+  <!-- LEAFLET GEOCODER JS -->
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+  <!-- MAIN SCRIPT -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>

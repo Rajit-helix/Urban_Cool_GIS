@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanCool GIS - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.4)), url('earth_bg.png');
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: -2;
+            animation: bgFloat 40s infinite alternate ease-in-out;
+        }
+
+        @keyframes bgFloat {
+            0% {
+                background-position: 0% 50%;
+                transform: scale(1.1);
+            }
+
+            100% {
+                background-position: 100% 50%;
+                transform: scale(1.2);
+            }
+        }
+
+        .login-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .login-card h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #3b82f6, #2dd4bf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-card p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .login-btn-container {
+            width: 100%;
+        }
+
+        .footer-links {
+            margin-top: 24px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid #1e293b;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+        }
+
+        .footer-links {
+            margin-top: 24px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .footer-links a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Ambient Glow Objects */
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #3b82f6;
+            filter: blur(150px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .glow-1 {
+            top: 10%;
+            left: 10%;
+            animation: pulseGlow 8s infinite alternate;
+        }
+
+        .glow-2 {
+            bottom: 10%;
+            right: 10%;
+            background: #2dd4bf;
+            animation: pulseGlow 12s infinite alternate-reverse;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                opacity: 0.15;
+                transform: scale(1) translate(0, 0);
+            }
+
+            100% {
+                opacity: 0.3;
+                transform: scale(1.2) translate(50px, 30px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="login-card">
+        <h1>UrbanCool GIS</h1>
+        <p>Login to your administration portal</p>
+
+        <form onsubmit="handleLogin(event)">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="admin@urbancool.gov" required>
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+
+        <div class="footer-links">
+            <p>New here? <a href="register.html">Create an Account</a></p>
+            <p style="margin-top: 8px;"><a href="#">Forgot password?</a></p>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(e) {
+            e.preventDefault();
+            // Mock authentication
+            const btn = document.querySelector('.login-btn');
+            btn.innerText = "Authenticating...";
+            btn.style.opacity = "0.7";
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1200);
+        }
+    </script>
+</body>
+
+</html>
