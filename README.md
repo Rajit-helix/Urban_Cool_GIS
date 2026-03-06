@@ -1,5 +1,7 @@
 ﻿# Urban Cool GIS
 
+[![CI](https://github.com/Rajit-helix/Urban_Cool_GIS/actions/workflows/ci.yml/badge.svg)](https://github.com/Rajit-helix/Urban_Cool_GIS/actions/workflows/ci.yml)
+
 Urban Cool GIS is a frontend dashboard prototype for urban heat analysis and mitigation planning. It combines an interactive map, city hotspot overlays, EV station visualization, multilingual assistant responses, and analytics charts in a single-page web interface.
 
 ## Features
@@ -53,6 +55,11 @@ You can also use VS Code Live Server or any equivalent static host.
 - Split `script.js` into modules
 - Add CSV/PDF export formats in addition to JSON report export
 - Add tests and linting pipeline
+
+## Community
+- Contribution guide: `.github/CONTRIBUTING.md`
+- Security policy: `.github/SECURITY.md`
+- Code of conduct: `.github/CODE_OF_CONDUCT.md`
 
 ## Repository
 GitHub: `https://github.com/Rajit-helix/Urban_Cool_GIS`

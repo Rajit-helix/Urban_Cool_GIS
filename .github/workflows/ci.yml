@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate required files
+        run: |
+          test -f index.html
+          test -f script.js
+          test -f style.css
+          test -f README.md
+
+      - name: JavaScript syntax check
+        run: node --check script.js
+
+      - name: Basic HTML reference check
+        run: |
+          grep -q "script.js" index.html
+          grep -q "style.css" index.html
+
